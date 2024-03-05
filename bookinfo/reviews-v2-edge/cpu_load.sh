@@ -6,7 +6,7 @@ let count=1
 
 for ((i=1;i<=2;i++))
 do
-	echo cpu_load_$count
+	echo $3_cpu_load_$count
 	kubectl apply -f ${file_path} -n chaos-mesh
 	echo "$(date +"%Y-%m-%d %T") start create."
 	sleep 180

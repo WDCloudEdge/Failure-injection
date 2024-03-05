@@ -5,7 +5,7 @@ let count=1
 
 for ((i=1;i<=$total_count;i++))
 do
-	echo net_latency_$count
+	echo $3_net_latency_$count
 	kubectl apply -f $dir/net_latency.yaml -n chaos-mesh
 	echo "$(date +"%Y-%m-%d %T") start create."
     sleep 60
