@@ -10,4 +10,4 @@ spec:
     namespaces:
       - 'bookinfo'
     labelSelectors:
-      'chaosmesh': 'reviews-v2'
+      'chaosmesh': 'reviews-v3-edge'

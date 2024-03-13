@@ -6,9 +6,10 @@ spec:
   action: delay
   mode: one
   selector:
-    pods:
-      bookinfo:
-        - details-v1-edge-558f5757fc-2gc72
+    namespaces:
+      - 'hipster'
+    labelSelectors:
+      'chaosmesh': 'recommendationservice-edge'
   delay:
     latency: '1000ms'
     correlation: '100'

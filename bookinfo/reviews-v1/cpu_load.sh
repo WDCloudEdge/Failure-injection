@@ -6,6 +6,8 @@ let count=1
 for ((i=1;i<=$total_count;i++))
 do
 	echo $3_cpu_load_$count
+    start_timestamp=$(date +%s) 
+    start_timestamp=$((start_timestamp - 6 * 60))  
 	kubectl apply -f $dir/cpu_load.yaml -n chaos-mesh
 	echo "$(date +"%Y-%m-%d %T") start create."
     sleep 60
@@ -20,9 +22,16 @@ do
     sleep 60
     if [ $is_scale ]; then
         echo "$(date +"%Y-%m-%d %T") start scale down 1."
+        before_timestamp=$(date +%s) 
+        python $dir/../log-collect/Log.py $3_cpu_load_$count before $start_timestamp $before_timestamp
         kubectl scale deployment reviews-v1 --replicas=$(( $(kubectl get deployment reviews-v1 -n bookinfo -o=jsonpath='{.spec.replicas}') - 1)) -n bookinfo
+        after_timestamp=$(date +%s)
     fi
 	echo -e "\n"
-	sleep 660
-	((count++))
+	sleep $((660 - $after_timestamp + $before_timestamp))
+    if [ $is_scale ];then
+        end_timestamp=$((before_timestamp + 5 * 60)) 
+        python $dir/../log-collect/Log.py $3_cpu_load_$count after $before_timestamp $end_timestamp &
+    fi
+    ((count++))
 done

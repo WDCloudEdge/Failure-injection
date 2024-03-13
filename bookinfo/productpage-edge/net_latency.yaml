@@ -10,7 +10,6 @@ spec:
       - 'bookinfo'
     labelSelectors:
       'chaosmesh': 'productpage-edge'
-  direction: both
   delay:
     latency: '1000ms'
     correlation: '100'

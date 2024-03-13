@@ -11,4 +11,4 @@ spec:
     namespaces:
       - 'bookinfo'
     labelSelectors:
-      'chaosmesh': 'productpage'
+      'chaosmesh': 'productpage-edge'
