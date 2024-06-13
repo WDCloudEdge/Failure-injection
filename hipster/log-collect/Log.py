@@ -23,11 +23,19 @@ def collect(config, _dir, condition, start_timestamp, duration):
 def build_log_urls(config):
     pod_url = {}
     for pod in config.pods:
-        url = config.kiali_url + '/namespaces/{}/pods/{}/logs?container=server&sinceTime={}&duration={}s'.format(
-            config.namespace,
-            pod,
-            int(config.start),
-            duration)
+        if config.namespace == 'bookinfo':
+            url = config.kiali_url + '/namespaces/{}/pods/{}/logs?container={}&sinceTime={}&duration={}s'.format(
+                config.namespace,
+                pod,
+                pod.split('-')[0],
+                int(config.start),
+                config.interval)
+        else:
+            url = config.kiali_url + '/namespaces/{}/pods/{}/logs?container=server&sinceTime={}&duration={}s'.format(
+                config.namespace,
+                pod,
+                int(config.start),
+                config.interval)
         pod_url[pod] = url
     return pod_url
 
@@ -54,7 +62,7 @@ def get_pod(config, namespace):
 
 
 if __name__ == '__main__':
-    namespaces = ['bookinfo', 'hipster', 'hipster2', 'cloud-sock-shop', 'horsecoder-test']
+    namespaces = ['bookinfo', 'hipster', 'cloud-sock-shop', 'horsecoder-test']
     config = Config()
     data_folder = sys.argv[1]
     condition = sys.argv[2]
